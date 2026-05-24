@@ -56,6 +56,11 @@ This fork is designed to be built and run from source using `docker-compose.test
 
 Create a system user named `momobookuser` with UID 1000. On a fresh Ubuntu server the first regular user typically gets UID 1000 — if that slot is already taken, pick a free UID and update the `user:` field in `docker-compose.test.yml` to match.
 
+Check which UIDs are already allocated:
+```bash
+awk -F: '{print $3, $1}' /etc/passwd | sort -n
+```
+
 ```bash
 sudo useradd --system --uid 1000 --no-create-home momobookuser
 ```
