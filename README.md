@@ -48,6 +48,49 @@
 > [!NOTE]
 > You can find the main documentation, including installation guides, at https://immich.app/.
 
+## Momobook Self-Hosting Setup
+
+This fork is designed to be built and run from source using `docker-compose.test.yml`. The server container runs as a non-root user (UID 1000) for security. Before starting the stack, you need to ensure the host data directories are owned by that user.
+
+### 1. Create a dedicated host user
+
+Create a system user named `momobookuser` with UID 1000. On a fresh Ubuntu server the first regular user typically gets UID 1000 — if that slot is already taken, pick a free UID and update the `user:` field in `docker-compose.test.yml` to match.
+
+Check which UIDs are already allocated:
+```bash
+awk -F: '{print $3, $1}' /etc/passwd | sort -n
+```
+
+```bash
+sudo useradd --system --uid 1000 --no-create-home momobookuser
+```
+
+If UID 1000 is already taken by your own account, skip this step — your account is already UID 1000 and the chown below is all you need.
+
+Confirm the UID:
+```bash
+id momobookuser
+```
+
+### 2. Create and own the data directories
+
+Replace the paths below with the values you set for `UPLOAD_LOCATION` and `DB_DATA_LOCATION` in your `.env` file.
+
+```bash
+sudo mkdir -p /mnt/photos/immich/library
+sudo mkdir -p /mnt/ssd/immich/postgres
+
+sudo chown -R 1000:1000 /mnt/photos/immich/library
+sudo chown -R 1000:1000 /mnt/ssd/immich/postgres
+```
+
+### 3. Build and start
+
+```bash
+docker compose -f docker-compose.test.yml build
+docker compose -f docker-compose.test.yml up -d
+```
+
 ## Links
 
 - [Documentation](https://docs.immich.app/)

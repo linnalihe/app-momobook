@@ -11,11 +11,12 @@ name: app-momobook # check
 
 services:
   momobook-server:
-    container_name: momobook-server # check
-    image: momobook-server:latest # check
+    container_name: momobook-server
+    image: momobook-server:latest
+    user: '1000:1000'
     build:
-      context: . # check
-      dockerfile: server/Dockerfile # check
+      context: .
+      dockerfile: server/Dockerfile
     # extends:
     #   file: hwaccel.transcoding.yml
     #   service: cpu # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
