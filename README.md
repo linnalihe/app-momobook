@@ -54,17 +54,17 @@ This fork is designed to be built and run from source using `docker-compose.test
 
 ### 1. Create a dedicated host user
 
-Create a system user named `momobook` with UID 1000. On a fresh Ubuntu server the first regular user typically gets UID 1000 — if that slot is already taken, pick a free UID and update the `user:` field in `docker-compose.test.yml` to match.
+Create a system user named `momobookuser` with UID 1000. On a fresh Ubuntu server the first regular user typically gets UID 1000 — if that slot is already taken, pick a free UID and update the `user:` field in `docker-compose.test.yml` to match.
 
 ```bash
-sudo useradd --system --uid 1000 --no-create-home momobook
+sudo useradd --system --uid 1000 --no-create-home momobookuser
 ```
 
 If UID 1000 is already taken by your own account, skip this step — your account is already UID 1000 and the chown below is all you need.
 
 Confirm the UID:
 ```bash
-id momobook
+id momobookuser
 ```
 
 ### 2. Create and own the data directories
